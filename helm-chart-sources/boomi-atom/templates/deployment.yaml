@@ -35,16 +35,45 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 9090
               protocol: TCP
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - /home/boomi/scaledown.sh
           livenessProbe:
+            periodSeconds: 60
             httpGet:
-              path: /
-              port: http
+              path: /_admin/liveness
+              port: 9090
           readinessProbe:
+            periodSeconds: 10
+            initialDelaySeconds: 60
             httpGet:
-              path: /
-              port: http
+              path: /_admin/readiness
+              port: 9090
+          env:
+          - name: BOOMI_ATOMNAME
+            value: {{ .Values.runtime.name }}
+          {{- if .Values.runtime.vm }}
+          - name: ATOM_VMOPTIONS_OVERRIDES
+            value: {{ .Values.runtime.vm | quote }}
+          {{- end }}
+          {{- if .Values.runtime.container }}
+          - name: CONTAINER_PROPERTIES_OVERRIDES
+            value: {{ .Values.runtime.container | quote }}
+          {{- end }}
+          - name: ATOM_LOCALHOSTID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: INSTALL_TOKEN 
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "boomi-atom.fullname" . }}
+                key: token
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

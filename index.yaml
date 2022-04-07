@@ -3,12 +3,12 @@ entries:
   boomi-atom:
   - apiVersion: v2
     appVersion: 4.0.0
-    created: "2022-04-01T16:05:59.4205034-06:00"
-    description: Manages Boomi Atoms in Kubernetes
-    digest: 59d50a7f555fd35772c829f7f1184f722f63fbfe8e24680c36c41362cc653b7c
+    created: "2022-04-07T12:06:17.4085632-06:00"
+    description: Boomi Atom for Kubernetes
+    digest: 20a40152c7e6b964575b5976d774af0f43f76686bdcd67c87a7d280b3434d9cb
     name: boomi-atom
     type: application
     urls:
     - https://github.com/bmerrickBoomi/helm-charts/boomi-atom-4.0.0.tgz
     version: 4.0.0
-generated: "2022-04-01T16:05:59.4168219-06:00"
+generated: "2022-04-07T12:06:17.4033192-06:00"

@@ -1,6 +1,6 @@
 apiVersion: v2
 name: boomi-atom
-description: Manages Boomi Atoms in Kubernetes
+description: Boomi Atom for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #

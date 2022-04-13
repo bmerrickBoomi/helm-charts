@@ -28,6 +28,8 @@ Install
 Delete
 
 ```
-CHART_LOWER=${"REPLACE",,}
-helm uninstall atom-$CHART_LOWER -n atom-$CHART_LOWER
-kubectl delete namespace atom-$CHART_LOWER
+(
+  CHART_LOWER="replace"
+  helm uninstall atom-$CHART_LOWER -n atom-$CHART_LOWER
+  kubectl delete namespace atom-$CHART_LOWER
+)

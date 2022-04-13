@@ -3,9 +3,9 @@ entries:
   boomi-atom:
   - apiVersion: v2
     appVersion: 4.1.2
-    created: "2022-04-13T10:12:51.1564478-06:00"
+    created: "2022-04-13T11:21:50.5705467-06:00"
     description: Boomi Atom for Kubernetes
-    digest: ee3e342a6e8ea266fed43e9364d4029d0b7e713c4f22e1c086ab317a1eaf8f55
+    digest: d740554ecb82badfe0504ba5dacbaeea4d544bb165c0ce8fcc84229697789cf0
     name: boomi-atom
     type: application
     urls:
@@ -13,7 +13,7 @@ entries:
     version: 4.1.2
   - apiVersion: v2
     appVersion: 4.0.0
-    created: "2022-04-13T10:12:51.1501902-06:00"
+    created: "2022-04-13T11:21:50.5655057-06:00"
     description: Boomi Atom for Kubernetes
     digest: 20a40152c7e6b964575b5976d774af0f43f76686bdcd67c87a7d280b3434d9cb
     name: boomi-atom
@@ -21,4 +21,15 @@ entries:
     urls:
     - https://bmerrickboomi.github.io/helm-charts/boomi-atom-4.0.0.tgz
     version: 4.0.0
-generated: "2022-04-13T10:12:51.1447728-06:00"
+  boomi-molecule:
+  - apiVersion: v2
+    appVersion: 4.1.2
+    created: "2022-04-13T11:21:50.5769838-06:00"
+    description: Boomi Molecule for Kubernetes
+    digest: 1fdbacb0f5cdf1d16c44259844d36caabfb9b554f0d8c7dc8c76948940b597c2
+    name: boomi-molecule
+    type: application
+    urls:
+    - https://bmerrickboomi.github.io/helm-charts/boomi-molecule-4.1.2.tgz
+    version: 4.1.2
+generated: "2022-04-13T11:21:50.5606676-06:00"

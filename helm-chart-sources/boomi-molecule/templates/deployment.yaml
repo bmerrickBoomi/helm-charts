@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "boomi-molecule.fullname" . }}
+  labels:
+    {{- include "boomi-molecule.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "boomi-molecule.fullname" . }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "boomi-molecule.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "boomi-molecule.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "boomi-molecule.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 9090
+              protocol: TCP
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - /home/boomi/scaledown.sh
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /_admin/liveness
+              port: 9090
+          readinessProbe:
+            periodSeconds: 10
+            initialDelaySeconds: 60
+            httpGet:
+              path: /_admin/readiness
+              port: 9090
+          env:
+          - name: BOOMI_ATOMNAME
+            value: {{ .Values.runtime.name }}
+          {{- if .Values.runtime.vm }}
+          - name: ATOM_VMOPTIONS_OVERRIDES
+            value: {{ .Values.runtime.vm | quote }}
+          {{- end }}
+          {{- if .Values.runtime.container }}
+          - name: CONTAINER_PROPERTIES_OVERRIDES
+            value: {{ .Values.runtime.container | quote }}
+          {{- end }}
+          - name: ATOM_LOCALHOSTID
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: INSTALL_TOKEN 
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "boomi-molecule.fullname" . }}
+                key: token
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

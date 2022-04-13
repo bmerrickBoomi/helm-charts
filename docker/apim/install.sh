@@ -11,4 +11,6 @@ chmod a+x gateway_install64.sh
 ${ATOM_HOME}/Gateway_${BOOMI_ATOMNAME}/bin/atom start
 ${ATOM_HOME}/Gateway_${BOOMI_ATOMNAME}/bin/atom status
 
+echo "gateway started"
+
 sleep infinity

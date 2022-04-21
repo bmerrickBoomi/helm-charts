@@ -38,7 +38,7 @@ Delete
 ## ElasticSearch
 
 ```
-helm install elasticsearch bitnami/elasticsearch --create-namespace --namespace elasticsearch --set global.kibanaEnabled=true --set ingest.enabled=true
+helm install elasticsearch bitnami/elasticsearch --create-namespace --namespace elasticsearch --set global.kibanaEnabled=true --set ingest.enabled=true --set master.replicas=1 --set coordinating.replicas=1 --set data.replicas=1 --set ingest.replicas=1
   
 helm install apm-server elastic/apm-server --namespace elasticsearch -f apm/elastic/elastic-server.yaml
 
